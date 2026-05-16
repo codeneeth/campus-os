@@ -9,14 +9,27 @@ interface Subject {
   trend: 'up' | 'down' | 'neutral'
 }
 
-const subjects: Subject[] = [
-  { name: 'Data Structures', score: 92, trend: 'up' },
-  { name: 'Machine Learning', score: 88, trend: 'up' },
-  { name: 'Database Systems', score: 85, trend: 'neutral' },
-  { name: 'Operating Systems', score: 78, trend: 'down' },
-]
+interface PerformanceSnapshotProps {
+  subjects?: Subject[]
+}
 
-export function PerformanceSnapshot() {
+export function PerformanceSnapshot({ subjects }: PerformanceSnapshotProps) {
+  if (!subjects || subjects.length === 0) {
+    return (
+      <div className="rounded-2xl bg-surface-50 p-6 shadow-soft">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-text-primary">Performance</h2>
+          <span className="text-sm text-text-tertiary">This Semester</span>
+        </div>
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <TrendingUp size={48} className="text-text-muted mb-3" />
+          <p className="text-sm text-text-tertiary">No performance data available</p>
+          <p className="text-xs text-text-muted mt-1">Grades will appear here once available</p>
+        </div>
+      </div>
+    )
+  }
+
   const averageScore = Math.round(
     subjects.reduce((acc, subject) => acc + subject.score, 0) / subjects.length
   )

@@ -1,9 +1,13 @@
 'use client'
 
-import { Bell, Search, User, Menu } from 'lucide-react'
+import { Bell, Search, User, Menu, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/lib/auth-context'
+import { getInitials } from '@/lib/utils'
 
 export function Navbar() {
+  const { user, logout } = useAuth()
+
   return (
     <header className="sticky top-0 z-40 border-b border-surface-200/60 bg-surface-50/80 backdrop-blur-xl">
       <div className="flex h-16 items-center justify-between px-6">
@@ -34,12 +38,21 @@ export function Navbar() {
           {/* Profile */}
           <button className="flex items-center gap-3 rounded-lg px-3 py-2 text-left transition-colors hover:bg-surface-200">
             <div className="h-8 w-8 rounded-full bg-gradient-to-br from-accent-blue to-accent-green flex items-center justify-center text-white text-sm font-medium">
-              JS
+              {user ? getInitials(user.name) : 'U'}
             </div>
             <div className="hidden md:block">
-              <p className="text-sm font-medium text-text-primary">John Smith</p>
-              <p className="text-xs text-text-tertiary">Student</p>
+              <p className="text-sm font-medium text-text-primary">{user?.name || 'User'}</p>
+              <p className="text-xs text-text-tertiary capitalize">{user?.role || 'Student'}</p>
             </div>
+          </button>
+
+          {/* Logout */}
+          <button
+            onClick={logout}
+            className="rounded-lg p-2.5 text-text-tertiary transition-colors hover:bg-surface-200 hover:text-text-primary"
+            title="Logout"
+          >
+            <LogOut size={20} />
           </button>
         </div>
       </div>

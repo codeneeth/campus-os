@@ -1,17 +1,23 @@
+'use client'
+
 import { DashboardShell } from '@/components/layout/dashboard-shell'
 import { TodayClasses } from '@/components/dashboard/widgets/today-classes'
 import { Attendance } from '@/components/dashboard/widgets/attendance'
 import { PerformanceSnapshot } from '@/components/dashboard/widgets/performance-snapshot'
 import { Notifications } from '@/components/dashboard/widgets/notifications'
 import { UpcomingEvents } from '@/components/dashboard/widgets/upcoming-events'
+import { ProtectedRoute } from '@/components/auth/protected-route'
+import { useAuth } from '@/lib/auth-context'
 
-export default function HomePage() {
+function DashboardContent() {
+  const { user } = useAuth()
+
   return (
     <DashboardShell>
       {/* Welcome Section */}
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-text-primary">
-          Welcome back, John
+          Welcome back, {user?.name || 'User'}
         </h1>
         <p className="mt-2 text-text-secondary">
           Here's what's happening with your academics today.
@@ -37,5 +43,13 @@ export default function HomePage() {
         </div>
       </div>
     </DashboardShell>
+  )
+}
+
+export default function HomePage() {
+  return (
+    <ProtectedRoute>
+      <DashboardContent />
+    </ProtectedRoute>
   )
 }

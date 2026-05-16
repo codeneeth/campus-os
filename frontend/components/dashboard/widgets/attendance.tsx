@@ -10,14 +10,27 @@ interface AttendanceData {
   percentage: number
 }
 
-const attendanceData: AttendanceData = {
-  present: 42,
-  absent: 3,
-  total: 45,
-  percentage: 93,
+interface AttendanceProps {
+  data?: AttendanceData
 }
 
-export function Attendance() {
+export function Attendance({ data }: AttendanceProps) {
+  if (!data) {
+    return (
+      <div className="rounded-2xl bg-surface-50 p-6 shadow-soft">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-text-primary">Attendance</h2>
+          <span className="text-sm text-text-tertiary">This Semester</span>
+        </div>
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <Clock size={48} className="text-text-muted mb-3" />
+          <p className="text-sm text-text-tertiary">No attendance data available</p>
+          <p className="text-xs text-text-muted mt-1">Data will appear once classes start</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="rounded-2xl bg-surface-50 p-6 shadow-soft">
       <div className="mb-4 flex items-center justify-between">
@@ -41,14 +54,14 @@ export function Attendance() {
               fill="none"
               stroke="currentColor"
               strokeWidth="3"
-              strokeDasharray={`${attendanceData.percentage}, 100`}
+              strokeDasharray={`${data.percentage}, 100`}
               className="text-accent-green"
               strokeLinecap="round"
             />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="text-2xl font-semibold text-text-primary">
-              {attendanceData.percentage}%
+              {data.percentage}%
             </span>
           </div>
         </div>
@@ -62,7 +75,7 @@ export function Attendance() {
             <span className="text-sm text-text-secondary">Present</span>
           </div>
           <span className="text-sm font-semibold text-text-primary">
-            {attendanceData.present}
+            {data.present}
           </span>
         </div>
 
@@ -72,7 +85,7 @@ export function Attendance() {
             <span className="text-sm text-text-secondary">Absent</span>
           </div>
           <span className="text-sm font-semibold text-text-primary">
-            {attendanceData.absent}
+            {data.absent}
           </span>
         </div>
 
@@ -82,7 +95,7 @@ export function Attendance() {
             <span className="text-sm text-text-secondary">Total Classes</span>
           </div>
           <span className="text-sm font-semibold text-text-primary">
-            {attendanceData.total}
+            {data.total}
           </span>
         </div>
       </div>

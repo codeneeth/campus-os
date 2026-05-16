@@ -29,10 +29,6 @@
     --accent-red: #DC2626;
   }
   
-  * {
-    @apply border-border;
-  }
-  
   body {
     @apply bg-background-50 text-text-primary antialiased;
     font-family: var(--font-inter);
